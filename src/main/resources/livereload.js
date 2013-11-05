@@ -138,7 +138,7 @@ __connector.Connector = Connector = (function() {
     this.WebSocket = WebSocket;
     this.Timer = Timer;
     this.handlers = handlers;
-    this._uri = "ws://" + this.options.host + ":" + this.options.port + "/livereload";
+    this._uri = "ws://" + this.options.host + ":" + this.options.port + this.options.path;
     this._nextDelay = this.options.mindelay;
     this._connectionDesired = false;
     this.protocol = 0;
@@ -318,6 +318,7 @@ __options.Options = Options = (function() {
   function Options() {
     this.host = null;
     this.port = 35729;
+    this.path = "/livereload";
     this.snipver = null;
     this.ext = null;
     this.extver = null;

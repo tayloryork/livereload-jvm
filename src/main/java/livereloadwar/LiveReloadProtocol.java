@@ -1,4 +1,4 @@
-package net_alchim31_livereload;
+package livereloadwar;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -11,7 +11,7 @@ import org.json.simple.JSONValue;
  * @author dwayne
  *
  */
-public class LRProtocol {
+public class LiveReloadProtocol {
 
   public String hello() {
     LinkedList<String> protocols = new LinkedList<String>();

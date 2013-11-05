@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.0">
+
+    <display-name>Test Web Application</display-name>
+    <description>
+        This is a simple web application with a source code organization
+        based on the recommendations of the Application Developer's Guide.
+    </description>
+
+    <servlet>
+        <servlet-name>Default</servlet-name>
+        <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
+        <init-param>
+            <param-name>useFileMappedBuffer</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>LiveReloadJSServlet</servlet-name>
+        <servlet-class>livereloadwar.LiveReloadJSServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LiveReloadWebSocketServlet</servlet-name>
+        <servlet-class>livereloadwar.LiveReloadWebSocketServlet</servlet-class>
+        <init-param>
+            <param-name>watchDir</param-name>
+            <param-value>src/test/webapp/</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LiveReloadJSServlet</servlet-name>
+        <url-pattern>/livereload.js</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LiveReloadWebSocketServlet</servlet-name>
+        <url-pattern>/livereload</url-pattern>
+    </servlet-mapping>
+</web-app>

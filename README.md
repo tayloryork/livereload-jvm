@@ -25,7 +25,7 @@ Java integration
     //#repo central m2:http://repo1.maven.org/maven2/
     
     import java.nio.file.FileSystems;
-    import net_alchim31_livereload.LRServer; //#from net.alchim31:livereload-jvm:0.1.0
+    import livereloadwar.LRServer; //#from net.alchim31:livereload-jvm:0.1.0
     
     int port = 35729;
     Path docroot = FileSystems.getDefault().getPath("web/root/path");

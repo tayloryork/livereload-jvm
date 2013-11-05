@@ -1,4 +1,4 @@
-package net_alchim31_livereload;
+package livereloadwar;
 
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * @see http://docs.oracle.com/javase/tutorial/essential/io/notification.html
+ * @see {link http://docs.oracle.com/javase/tutorial/essential/io/notification.html}
  * @author dwayne
  * 
  */
@@ -32,20 +32,20 @@ public class Watcher implements Runnable {
   private final Path                _docroot;
   private final AtomicBoolean       _running = new AtomicBoolean(false);
 
-  public LRWebSocketHandler         listener = null;
+  public LiveReloadWebSocket listener = null;
 
   public Watcher(Path docroot) throws Exception {
     _docroot = docroot;
     this._watcher = docroot.getFileSystem().newWatchService();
     this._keys = new HashMap<WatchKey, Path>();
 
-    // System.out.format("Scanning %s ...\n", _docroot);
+    System.out.format("Scanning %s ...\n", _docroot.toAbsolutePath());
     registerAll(_docroot);
     // System.out.println("Done.");
   }
 
   private void notify(String path) throws Exception {
-    LRWebSocketHandler l = listener;
+      LiveReloadWebSocket l = listener;
     if (l != null)
       l.notifyChange(path);
   }
