@@ -1,4 +1,4 @@
-package livereloadwar;
+package co.tyec.livereloadservlet;
 
 
 import org.eclipse.jetty.websocket.api.Session;
@@ -7,8 +7,10 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @WebSocket
@@ -17,19 +19,25 @@ public class LiveReloadWebSocket {
     final LiveReloadProtocol _protocol = new LiveReloadProtocol();
     protected Session _session;
     Watcher _watcher = null;
-
-    private final boolean debug = false;
+    ServletContext servletContext = null;
+    Path watchDir = new File("./").toPath();
+    private final boolean debug = true;
 
     @OnWebSocketConnect
     public void doWebSocketConnect(Session session) {
-
+        if(servletContext != null){
+            String watchDirInitParam = servletContext.getInitParameter("watchDir");
+            if(watchDirInitParam != null && !watchDirInitParam.isEmpty()){
+                watchDir = new File(watchDirInitParam).toPath();
+            }
+        }
         if(debug) {
             System.out.println("LiveReloadWebSocket: doWebSocketConnect called!");
         }
         _session = session;
         _broadcast.add(this);
         try {
-            _watcher = new Watcher((new File("./")).toPath());
+            _watcher = new Watcher(watchDir);
             _watcher.listener = this;
             _watcher.start();
         } catch (Exception e) {

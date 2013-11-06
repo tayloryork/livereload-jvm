@@ -1,7 +1,7 @@
 Overview
 ========
 
-A micro http server usefull for dev ONLY :
+A java servlet usefull for dev ONLY :
 
 * serve static file
 * notify change to client via LiveReload protocol (over socket)
@@ -9,29 +9,40 @@ A micro http server usefull for dev ONLY :
 Usages
 ======
 
-The default port is 35729 (like define in the LiveReload protocol).
+The default port is not 35729 (like define in the LiveReload protocol). Instead, it uses whatever port your personal webapp uses.
 If you change the port then you could not use the [Browsers Extension](http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-) for LiveReload, but it should works if you insert a [JavaScript snippet](http://go.livereload.com/mobile) in your pages.
 
-Cli
----
-
-Download the [livereload-jvm-0.1.0-onejar.jar](http://repo2.maven.org/maven2/net/alchim31/livereload-jvm/0.1.0/livereload-jvm-0.1.0-onejar.jar) (or regular jar  + all dependencies from maven central).
-
-    java -jar livereload-jvm-0.1.0-onejar.jar web/root/path [port]
-
-Java integration
+Java Webapp Integration
 ----------------
 
-    //#repo central m2:http://repo1.maven.org/maven2/
-    
-    import java.nio.file.FileSystems;
-    import livereloadwar.LRServer; //#from net.alchim31:livereload-jvm:0.1.0
-    
-    int port = 35729;
-    Path docroot = FileSystems.getDefault().getPath("web/root/path");
-    new LRServer(port, docroot).run(); // == start() + join()
+This is an example WebApp web.xml that configures LiveReload to watch /src/main/webapp for changes.
+    <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.0">
 
-If you provide a plugin for your builder (maven, ant, sbt, gradle, plob, ...), let me know.
+        <display-name>Your Web Application</display-name>
+        <description>Your Apps description</description>
+
+        <servlet>
+            <servlet-name>LiveReloadJSServlet</servlet-name>
+            <servlet-class>co.tyec.livereloadservlet.LiveReloadJSServlet</servlet-class>
+        </servlet>
+        <servlet>
+            <servlet-name>LiveReloadWebSocketServlet</servlet-name>
+            <servlet-class>co.tyec.livereloadservlet.LiveReloadWebSocketServlet</servlet-class>
+            <init-param>
+                <param-name>watchDir</param-name>
+                <param-value>src/main/webapp/</param-value>
+            </init-param>
+        </servlet>
+
+        <servlet-mapping>
+            <servlet-name>LiveReloadJSServlet</servlet-name>
+            <url-pattern>/livereload.js</url-pattern>
+        </servlet-mapping>
+        <servlet-mapping>
+            <servlet-name>LiveReloadWebSocketServlet</servlet-name>
+            <url-pattern>/livereload</url-pattern>
+        </servlet-mapping>
+    </web-app>
 
 Links
 =====
@@ -43,6 +54,7 @@ Links
 Alternatives
 ============
 
+* [LiveReload-JVM](https://github.com/davidB/livereload-jvm/) This project was start with the LiveReload-JVM as the base. It used an embedded standalone jetty webserver instead of integrating with your own webserver.
 * [LiveReload 2/3](http://livereload.com/) the main tool (Mac & Windows only) include GUI
 * [guard-livereload](https://github.com/guard/guard-livereload) a LiveReload server-side for Guard (Ruby)
 * [grunt-reload](https://github.com/webxl/grunt-reload) a LiveReload server-side for Grunt (javascript/nodejs)
@@ -53,4 +65,4 @@ License
 =======
 
 * the project is under [unlicense](http://unlicense.org/)
-* the project (source and binaries) include [livereload.js], livereload.js is under MIT
+* the project (source and binaries) include [livereload.js], livereload.js is under MIT. livereload.js HAS BEEN SLIGHTLY MODIFIED

@@ -1,7 +1,6 @@
-package livereloadwar;
+package co.tyec.livereloadservlet;
 
 
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 

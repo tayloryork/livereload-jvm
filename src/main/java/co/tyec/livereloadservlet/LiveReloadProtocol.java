@@ -1,4 +1,4 @@
-package livereloadwar;
+package co.tyec.livereloadservlet;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;

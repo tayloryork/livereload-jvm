@@ -1,4 +1,4 @@
-package livereloadwar;
+package co.tyec.livereloadservlet;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
